@@ -67,10 +67,13 @@ fi
 
 if [[ $run_yaml -eq 1 || $run_all -eq 1 ]]; then
     # 해시코드 생성
+    CURRENT_TIMESTAMP=$(date +%Y%m%d%H%M%S)
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        HASHCODE=$(cat env.properties | md5 | cut -d' ' -f4)
+        # MacOS에서 해시 코드 생성
+        HASHCODE=$(echo -n "$CURRENT_TIMESTAMP$(cat env.properties)" | md5 | cut -d' ' -f4)
     else
-        HASHCODE=$(cat env.properties | md5sum | cut -d' ' -f1)
+        # 다른 운영 체제에서 해시 코드 생성
+        HASHCODE=$(echo -n "$CURRENT_TIMESTAMP$(cat env.properties)" | md5sum | cut -d' ' -f1)
     fi
 
     for file in "${DEPLOY_PATH}"/*.t; do
@@ -79,6 +82,7 @@ if [[ $run_yaml -eq 1 || $run_all -eq 1 ]]; then
             -e "s#\${IMAGE_NAME}#${IMAGE_NAME}#g" \
             -e "s#\${VERSION}#${VERSION}#g" \
             -e "s#\${HASHCODE}#${HASHCODE}#g" \
+            -e "s#\${NAMESPACE}#${NAMESPACE}#g" \
             "$file" > "$new_file"
             cat "$new_file"
     done
