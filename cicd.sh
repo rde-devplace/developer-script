@@ -25,7 +25,6 @@ run_all=0
 
 # 스크립트의 디렉토리 경로를 얻음
 script_dir="$(dirname "$0")"
-echo "script_dir $script_dir"
 
 
 # 옵션 파싱
