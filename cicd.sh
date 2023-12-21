@@ -82,6 +82,7 @@ if [[ $run_yaml -eq 1 || $run_all -eq 1 ]]; then
             -e "s#\${VERSION}#${VERSION}#g" \
             -e "s#\${HASHCODE}#${HASHCODE}#g" \
             -e "s#\${NAMESPACE}#${NAMESPACE}#g" \
+            -e "s#\${LOGGING_DEBUG}#${LOGGING_DEBUG}#g" \
             "$file" > "$new_file"
             cat "$new_file"
     done
