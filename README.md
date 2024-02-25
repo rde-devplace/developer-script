@@ -1,6 +1,5 @@
 # developer-script
-개발 빌드 배포를 위한 스크립트를 작성한다. 
-이것을 사용하기 위해서는 
+이 스크립트는 devplace의 빌드 및 배포를 위한 스크립트를 제공한다.
 
 ## 1 프로그램 별 환경 구성
 각 diectory에서 env.properties를 설정해야 한다
@@ -55,10 +54,31 @@ spec:
 
 ```
 
-## 3 유의 사항
-cicd.sh  실행 시 -d | --deploy | -a | --all 로 했을 때 
-k8s yaml을 기반으로 apply 하기 위해서는 
-k8s 내 *.t file 이 존재해야 한다.
-만약 기존 yaml 을 그대로 사용하고 싶으면 
-yaml 을 .t로 변환하면 된다. 
-예를 들어 deploy.yaml이 있는 경우 deploy.t로 전환하게 되면 cicd.sh 실행 시 deploy가 자동 실행된다.
+## 3. 실행하기
+devplace-operator, devplace-proxy, devplace-frontend 등에서 
+cicd.sh를 실행하면 되며, 세부 파라메터는 다음과 같다.
+```
+# PATH 추가
+> export PATH=$PATH:${DEVPLACE_SCRIPT_PATH}
+
+> cicd.sh
+Usage: /Users/himang10/mydev/digital-devplace/developer-script/cicd.sh [-b|--build] [-p|--push] [-y|--yaml] [-d|--deploy] [-a|--all]
+  -b, --build    Build exec file
+  -p, --push     Build docker image and push docker image to registry
+  -y, --yaml     Convert .t files to .yaml
+  -d, --deploy   Deploy docker to k8s cluster using generated .yaml files
+  -a, --all      Run all steps in order
+  
+# build, push, yaml generation, deploy를 한번에 하고자 하는 경우 
+> cicd.sh -a
+```
+특히 k8s 디렉토리에 *.t file 이 있는데, 이것은 Template으로 env.properties에 설정된 변수를 적용하여 deploy.yaml을 생성한다.
+그러므로 cicd.sh -a 또는 cicd.sh -y 를 실행하여 deploy.yaml을 생성할 수 있다.
+
+만약 기존의 *.yaml을 그대로 사용하고 싶을 경우에는 
+- *.t를 삭제하거나 
+- cicd.sh -a 대신 cicd.sh -b -p -d 
+
+를 실행하면 된다.
+
+
