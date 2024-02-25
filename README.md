@@ -5,7 +5,8 @@
 ## 1 프로그램 별 환경 구성
 각 diectory에서 env.properties를 설정해야 한다
 예시는 다음과 같다
-'''
+
+```
 JAR_FILE_PATH="./target/ideoperators-0.0.1-SNAPSHOT.jar"
 DOCKER_REGISTRY="amdp-registry.skamdp.org/mydev-ywyi"
 DOCKER_REGISTRY_USER="xxxx"
@@ -15,14 +16,14 @@ IMAGE_NAME="ide-operator"
 VERSION="1.0.0"
 DEPLOY_PATH="./k8s"
 DEPLOY_FILE_NAME=deploy.yaml
-'''
+```
 
 ## 2 k8s deploy 를 위한 template 구성하기
 k8s/ 아래에 deploy.t 처럼 별도의 이름을 설정해야 한다. 
 
 deploy.t 예시는 다음과 같다.
 
-'''yaml
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -52,7 +53,7 @@ spec:
             runAsUser: 0
             privileged: true
 
-'''
+```
 
 ## 3 유의 사항
 cicd.sh  실행 시 -d | --deploy | -a | --all 로 했을 때 
